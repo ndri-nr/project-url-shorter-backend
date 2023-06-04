@@ -5,3 +5,5 @@ spring.r2dbc.password=
 spring.flyway.url=
 spring.flyway.user=
 spring.flyway.password=
+
+allowedOrigins=
