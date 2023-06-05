@@ -7,3 +7,6 @@ spring.flyway.user=
 spring.flyway.password=
 
 allowedOrigins=
+server.tomcat.connection-timeout=
+server.jetty.idle-timeout=
+server.undertow.io-timeout=

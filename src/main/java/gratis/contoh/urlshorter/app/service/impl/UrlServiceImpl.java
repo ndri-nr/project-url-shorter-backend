@@ -32,7 +32,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class UrlServiceImpl implements UrlService {
 	
-	private static final int STRING_LENGTH = 10;
+	private static final int STRING_LENGTH = 7;
 	
 	@Autowired
 	private ObjectMapper<UrlDto, MstUrl> urlDtoToMstUrl;
