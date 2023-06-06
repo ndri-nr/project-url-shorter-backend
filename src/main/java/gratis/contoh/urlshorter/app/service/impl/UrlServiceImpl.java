@@ -58,7 +58,7 @@ public class UrlServiceImpl implements UrlService {
 		return urlDto.map(dto -> urlDtoToMstUrl.convert(dto))
 				.zipWhen(dto -> {
 					try {
-			            URL url = new URL(dto.getRedirectTo());
+			            new URL(dto.getRedirectTo());
 			            return Mono.just(true);
 			        } catch (Exception e) {
 			            return Mono.just(false);
