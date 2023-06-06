@@ -1,5 +1,6 @@
 package gratis.contoh.urlshorter.app.service.impl;
 
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import gratis.contoh.mapper.ObjectMapper;
+import gratis.contoh.urlshorter.app.exception.BadRequestException;
 import gratis.contoh.urlshorter.app.model.MstUrl;
 import gratis.contoh.urlshorter.app.model.Session;
 import gratis.contoh.urlshorter.app.model.dto.UrlDto;
@@ -54,7 +56,18 @@ public class UrlServiceImpl implements UrlService {
 		LocalDateTime now = LocalDateTime.now();
 		
 		return urlDto.map(dto -> urlDtoToMstUrl.convert(dto))
-				.map(mstUrl -> {
+				.zipWhen(dto -> {
+					try {
+			            URL url = new URL(dto.getRedirectTo());
+			            return Mono.just(true);
+			        } catch (Exception e) {
+			            return Mono.just(false);
+			        }
+				})
+				.map(tuple -> {
+					if(!tuple.getT2()) throw new BadRequestException("URL not valid");
+					
+					MstUrl mstUrl = tuple.getT1();
 					mstUrl.setUrlId(generateUrlId());
 					mstUrl.setVisited(0);
 					return mstUrl;
